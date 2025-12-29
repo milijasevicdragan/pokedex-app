@@ -39,7 +39,7 @@ function Pokedex() {
           key={pokemon.id}
           name={pokemon.name}
           number={pokemon.id}
-          type={pokemon.types[0].type.name}
+          types={pokemon.types}
           sprite={pokemon.sprites.other.dream_world.front_default}
         />
       ))}
