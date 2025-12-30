@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const api = axios.create({
+export const API = axios.create({
   baseURL: 'https://pokeapi.co/api/v2/',
   timeout: 10_000,
   headers: {
@@ -9,7 +9,7 @@ export const api = axios.create({
 });
 
 // Add a response interceptor
-api.interceptors.response.use(
+API.interceptors.response.use(
   (response) => {
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
