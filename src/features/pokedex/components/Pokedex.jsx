@@ -21,7 +21,7 @@ export default function Pokedex() {
             <strong>Du hast alle Pokemon gefangen!</strong>
           </p>
         }>
-        <div className='grid grid-cols-2 gap-4 mx-auto md:grid-cols-3'>
+        <div className='grid grid-cols-2 gap-4 p-4 mx-auto md:grid-cols-3'>
           {pokemon.map((pokemon, index) => (
             <PokeCard
               key={index}
