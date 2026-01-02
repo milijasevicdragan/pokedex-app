@@ -21,8 +21,8 @@ export default function PokeCard({ name, number, types, sprite }) {
 
         {/* Typen */}
         <div className='flex flex-row flex-wrap gap-2'>
-          {types.map((element) => (
-            <Badge key={element.type.name} typeName={element.type.name} />
+          {types.map((element, index) => (
+            <Badge key={index} typeName={element.type.name} />
           ))}
         </div>
       </div>
