@@ -1,7 +1,7 @@
-import { getPokemonByIdOrName, getPokemonSpeciesById } from '@/features/pokedex/api/pokemonApi';
-import { mapApiToPokemon } from '@/features/pokedex/utils/mappers';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { getPokemonByIdOrName, getPokemonSpeciesById } from '@/shared/api/pokemonApi';
+import { mapApiToPokemon } from '@/shared/utils/mappers';
 import { normalizeEvolutionChain } from '../utils/evolutionChainHelper';
 
 export const usePokemonDetails = (id) => {

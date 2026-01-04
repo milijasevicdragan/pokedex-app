@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const PokemonEvolutionModal = ({ currentPokemonImage, nextEvolution, onClose }) => {
+const EvolutionModal = ({ currentPokemonImage, nextEvolution, onClose }) => {
   const navigate = useNavigate();
   const [showFlash, setShowFlash] = useState(false);
   const [statusText, setStatusText] = useState('Das Pokemon entwickelt sich!');
@@ -44,4 +44,4 @@ const PokemonEvolutionModal = ({ currentPokemonImage, nextEvolution, onClose }) 
   );
 };
 
-export default PokemonEvolutionModal;
+export default EvolutionModal;

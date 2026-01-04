@@ -1,5 +1,5 @@
-import { getPokemonByIdOrName } from '@/features/pokedex/api/pokemonApi';
-import { mapApiToPokemon } from '@/features/pokedex/utils/mappers';
+import { getPokemonByIdOrName } from '@/shared/api/pokemonApi';
+import { mapApiToPokemon } from '@/shared/utils/mappers';
 
 export const normalizeEvolutionChain = async (chain) => {
   const evolutionChain = [];

@@ -1,6 +1,6 @@
 import { TYPE_COLORS } from '@/shared/types/pokemonTypes';
 
-const PokemonEvolutionCircle = ({ evolution, evolutionChainLength, currentType, isCurrentPokemon, index }) => {
+const EvolutionItem = ({ evolution, evolutionChainLength, currentType, isCurrentPokemon, index }) => {
   return (
     <>
       <div
@@ -32,4 +32,4 @@ const PokemonEvolutionCircle = ({ evolution, evolutionChainLength, currentType, 
   );
 };
 
-export default PokemonEvolutionCircle;
+export default EvolutionItem;

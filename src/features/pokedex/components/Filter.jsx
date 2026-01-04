@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getPokemonTypes } from '../api/pokemonApi';
+import { getPokemonTypes } from '../../../shared/api/pokemonApi';
 
 export default function Filter({ onSearch, onTypeChange }) {
   const [types, setTypes] = useState([]);
