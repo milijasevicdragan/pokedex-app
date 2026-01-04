@@ -6,7 +6,7 @@ export default function NavBar() {
     <nav className='bg-gray-800 p-6 mb-10'>
       <div className='container flex items-center justify-between flex-wrap mx-auto'>
         <div className='flex items-center flex-shrink-0 text-white mr-6'>
-          <a href='http://localhost:3000'>
+          <a href='http://localhost:5137'>
             <img className='mr-3' src={pikachuIcon} width={32} height={32} alt='Pikachu Logo' />
           </a>
           <span className='font-semibold text-xl tracking-tight'>Pokédex</span>

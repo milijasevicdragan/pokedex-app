@@ -18,7 +18,7 @@ export default function Pokedex() {
         loader={<h4 className='text-center my-4 font-bold text-gray-500 animate-pulse'>Lade weitere Pokemon...</h4>}
         endMessage={
           <p className='text-center my-4 text-green-500'>
-            <strong>Du hast alle Pokemon gefangen!</strong>
+            <strong>Ende der Pokemon-Liste!</strong>
           </p>
         }>
         <div className='grid grid-cols-2 gap-4 p-4 mx-auto md:grid-cols-3'>
