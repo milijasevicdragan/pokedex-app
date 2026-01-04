@@ -17,3 +17,7 @@ export const getPokemonTypes = () => {
 export const getPokemonByType = (type) => {
   return API.get(`/type/${type}`);
 };
+
+export const getPokemonSpeciesById = (id) => {
+  return API.get(`/pokemon-species/${id}`);
+};
