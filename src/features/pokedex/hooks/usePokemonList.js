@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
-import { getPokemonByIdOrName, getPokemonByType, getPokemonList } from '../api/pokemonApi';
-import { mapApiToPokemon } from '../utils/mappers';
+import { getPokemonByIdOrName, getPokemonByType, getPokemonList } from '@/shared/api/pokemonApi';
+import { mapApiToPokemon } from '@/shared/utils/mappers';
 
 export const usePokemonList = () => {
   const [allPokemonNames, setAllPokemonNames] = useState([]);

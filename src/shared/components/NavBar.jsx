@@ -5,12 +5,10 @@ export default function NavBar() {
   return (
     <nav className='bg-gray-800 p-6 mb-10'>
       <div className='container flex items-center justify-between flex-wrap mx-auto'>
-        <div className='flex items-center flex-shrink-0 text-white mr-6'>
-          <a href='http://localhost:5137'>
-            <img className='mr-3' src={pikachuIcon} width={32} height={32} alt='Pikachu Logo' />
-          </a>
+        <a href='http://localhost:5173' className='flex items-center flex-shrink-0 text-white mr-6'>
+          <img className='mr-3' src={pikachuIcon} width={32} height={32} alt='Pikachu Logo' />
           <span className='font-semibold text-xl tracking-tight'>Pokédex</span>
-        </div>
+        </a>
         <div className='block lg:hidden'>
           <button className='flex items-center px-3 py-2 border rounded text-white border-white'>
             <svg className='fill-current h-3 w-3' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'>

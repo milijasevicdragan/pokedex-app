@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import PokemonEvolutionCircle from './PokemonEvolutionCircle';
-import PokemonEvolutionModal from './PokemonEvolutionModal';
 import { useNavigate } from 'react-router-dom';
+import EvolutionModal from './EvolutionModal';
+import EvolutionItem from './EvolutionItem';
 
-export default function PokemonEvolutions({ evolutionChain, currentPokemonImage, currentType }) {
+const PokemonEvolutions = ({ evolutionChain, currentPokemonImage, currentType }) => {
   const [evolvingTo, setEvolvingTo] = useState(null);
   const navigate = useNavigate();
 
@@ -27,7 +27,7 @@ export default function PokemonEvolutions({ evolutionChain, currentPokemonImage,
   return (
     <>
       {evolvingTo && (
-        <PokemonEvolutionModal
+        <EvolutionModal
           currentPokemonImage={currentPokemonImage}
           nextEvolution={evolvingTo}
           onClose={() => setEvolvingTo(null)}
@@ -44,11 +44,11 @@ export default function PokemonEvolutions({ evolutionChain, currentPokemonImage,
               <div key={evolution.id} className='flex items-center flex-1'>
                 <div
                   to={`/pokemon/${evolution.id}`}
-                  onClick={() => !isCurrentPokemon && handleEvolutionClick(evolution, index)}
+                  onClick={() => handleEvolutionClick(evolution, index)}
                   className={`relative flex flex-col items-center group w-full cursor-pointer ${
                     isCurrentPokemon ? 'opacity-100 cursor-default' : 'opacity-60 hover:opacity-100'
                   }`}>
-                  <PokemonEvolutionCircle
+                  <EvolutionItem
                     evolution={evolution}
                     evolutionChainLength={evolutionChain.length}
                     currentType={currentType}
@@ -63,4 +63,6 @@ export default function PokemonEvolutions({ evolutionChain, currentPokemonImage,
       </div>
     </>
   );
-}
+};
+
+export default PokemonEvolutions;

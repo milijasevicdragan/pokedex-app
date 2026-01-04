@@ -19,15 +19,10 @@ export default function PokemonPage() {
 
   return (
     <>
-      <div className='container mx-auto'>
-        <Link to='/' className='text-blue-500 underline mb-4 block'>
-          &larr; Pokedex
-        </Link>
-        <div className=' py-16'>
-          <div className='flex flex-row justify-between'>
-            <Pokemon pokemon={pokemon} evolutions={evolutions} />
-            <PokemonDetails species={pokemonSpecies} />
-          </div>
+      <div className='container mx-auto py-8'>
+        <div className='flex flex-row justify-between'>
+          <Pokemon pokemon={pokemon} evolutions={evolutions} />
+          <PokemonDetails species={pokemonSpecies} />
         </div>
       </div>
     </>
