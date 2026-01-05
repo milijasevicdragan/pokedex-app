@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { getPokemonByIdOrName, getPokemonByType, getPokemonList } from '@/shared/api/pokemonApi';
 import { mapApiToPokemon } from '@/shared/utils/mappers';
+import { isPokemonInGeneration } from '@/shared/utils/filterHelper';
 
 export const usePokemonList = () => {
   const [allPokemonNames, setAllPokemonNames] = useState([]);
@@ -10,7 +11,8 @@ export const usePokemonList = () => {
   const [error, setError] = useState(null);
 
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedType, setSelectedType] = useState('');
+  const [selectedType, setSelectedType] = useState('all');
+  const [selectedGeneration, setSelectedGeneration] = useState('all');
 
   const [offset, setOffset] = useState(0);
   const [hasMore, setHasMore] = useState(true);
@@ -25,7 +27,7 @@ export const usePokemonList = () => {
     try {
       let results = [];
 
-      if (selectedType) {
+      if (selectedType && selectedType !== 'all') {
         // Wenn typ ausgewählt wurde, pokemon danach filtern
         const pokemonByType = await getPokemonByType(selectedType);
         results = pokemonByType.pokemon.map((pokemon) => pokemon.pokemon);
@@ -39,7 +41,22 @@ export const usePokemonList = () => {
         results = results.filter((pokemon) => pokemon.name.includes(searchQuery));
       }
 
-      setAllPokemonNames(results);
+      // Liste mit ID's wichtig für den Generationen-Filter
+      const listWithIds = results.map((pokemon) => {
+        const urlParts = pokemon.url.split('/');
+        const id = Number(urlParts[urlParts.length - 2]);
+
+        return { ...pokemon, id };
+      });
+
+      const filteredResults = listWithIds.filter((pokemon) => {
+        const matchesSearch = pokemon.name.toLowerCase().includes(searchQuery.toLocaleLowerCase());
+        const matchesGeneration = isPokemonInGeneration(pokemon.id, selectedGeneration);
+
+        return matchesSearch && matchesGeneration;
+      });
+
+      setAllPokemonNames(filteredResults);
       setOffset(0);
       setPokemon([]);
       setHasMore(results.length > 0);
@@ -58,11 +75,16 @@ export const usePokemonList = () => {
     }, 500);
 
     return () => clearTimeout(timeout);
-  }, [searchQuery, selectedType]);
+  }, [searchQuery, selectedType, selectedGeneration]);
 
   const loadPokemons = useCallback(async () => {
     // Verhindert doppeltes Laden
     if (loading || allPokemonNames.length === 0) return;
+
+    // Bei erreichen vom Ende der Liste keine Pokemon mehr laden
+    if (offset + LIMIT >= allPokemonNames.length) {
+      setHasMore(false);
+    }
 
     try {
       // Nicht alle Pokemon anzeigen, sondern nur ein Stück
@@ -79,11 +101,6 @@ export const usePokemonList = () => {
       // Daten in ein Objekt transformieren
       const newPokemonData = pokeDetails.map((pokemon) => mapApiToPokemon(pokemon));
       setPokemon((prevPokemon) => [...prevPokemon, ...newPokemonData]);
-
-      // Bei erreichen vom Ende der Liste keine Pokemon mehr laden
-      if (offset + LIMIT >= allPokemonNames.length) {
-        setHasMore(false);
-      }
     } catch (err) {
       setError('Fehler beim Laden der Pokemon');
       console.error('Pokemon-Liste konnte nicht geladen werden.', err);
@@ -99,5 +116,17 @@ export const usePokemonList = () => {
     setOffset((prev) => prev + LIMIT);
   };
 
-  return { pokemon, loading, error, loadMore, hasMore, setSearchQuery, setSelectedType };
+  return {
+    pokemon,
+    loading,
+    error,
+    loadMore,
+    hasMore,
+    searchQuery,
+    setSearchQuery,
+    selectedType,
+    setSelectedType,
+    selectedGeneration,
+    setSelectedGeneration,
+  };
 };

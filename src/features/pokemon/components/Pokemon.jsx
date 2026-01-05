@@ -1,4 +1,4 @@
-import { TYPE_COLORS } from '@/shared/types/pokemonTypes';
+import { TYPE_COLORS } from '@/shared/constants/pokemonConfig';
 import PokemonHeader from './PokemonHeader';
 import PokemonEvolutions from './PokemonEvolutions';
 
