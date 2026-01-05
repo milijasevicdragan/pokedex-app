@@ -3,20 +3,28 @@ import { mapApiToPokemon } from '@/shared/utils/mappers';
 
 export const normalizeEvolutionChain = async (chain) => {
   const evolutionChain = [];
-  let currentChain = chain;
 
-  while (currentChain && currentChain.species) {
-    const speciesName = currentChain.species.name;
+  const collectEvolutions = (node, parentId = null) => {
+    const speciesName = node.species.name;
     // ID ist nur in der URL enthalten
-    const urlParts = currentChain.species.url.split('/');
+    const urlParts = node.species.url.split('/');
     const id = urlParts[urlParts.length - 2];
 
-    evolutionChain.push({ id, speciesName });
-    currentChain = currentChain.evolves_to[0];
-  }
+    evolutionChain.push({ id, name: speciesName, evolvesFromId: parentId });
+
+    if (node.evolves_to && node.evolves_to.length > 0) {
+      node.evolves_to.forEach((childNode) => {
+        collectEvolutions(childNode, id);
+      });
+    }
+  };
+
+  collectEvolutions(chain, null);
+
+  const uniqueIds = [...new Set(evolutionChain.map((item) => item.id))];
 
   // Alle pokemon daten auf einmal holen
-  const apiPromises = evolutionChain.map((pokeData) => getPokemonByIdOrName(pokeData.id));
+  const apiPromises = uniqueIds.map((uniqueId) => getPokemonByIdOrName(uniqueId));
   const apiResponses = await Promise.all(apiPromises);
 
   // Fertiges Objekt zusammenbauen
@@ -27,8 +35,9 @@ export const normalizeEvolutionChain = async (chain) => {
 
     return {
       id: pokemonItem.id,
-      name: pokemonItem.speciesName,
+      name: pokemonItem.name,
       image: pokemon.sprite,
+      evolvesFromId: pokemonItem.evolvesFromId,
     };
   });
 
