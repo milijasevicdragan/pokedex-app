@@ -1,5 +1,5 @@
 import Badge from '@/shared/components/Badge';
-import { TYPE_COLORS } from '@/shared/types/pokemonTypes';
+import { TYPE_COLORS } from '@/shared/constants/pokemonConfig';
 import { Link } from 'react-router-dom';
 
 export default function PokeCard({ name, number, types, sprite }) {

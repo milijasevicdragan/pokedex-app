@@ -1,4 +1,4 @@
-import { TYPE_COLORS } from '../types/pokemonTypes';
+import { TYPE_COLORS } from '../constants/pokemonConfig';
 
 const Badge = ({ typeName }) => {
   return (
