@@ -1,23 +1,56 @@
 import { API } from '@/shared/api/axios';
 
-export const getPokemonList = (limit, offset = 0) => {
-  return API.get('/pokemon', {
-    params: { limit, offset },
-  });
+const apiCache = new Map();
+
+export const getPokemonList = async (limit, offset = 0) => {
+  const key = `list-${limit}-${offset}`;
+  if (apiCache.has(key)) return apiCache.get(key);
+
+  const response = await API.get(`pokemon?limit=${limit}&offset=${offset}`);
+  apiCache.set(key, response);
+
+  return response;
 };
 
-export const getPokemonByIdOrName = (idOrName) => {
-  return API.get(`/pokemon/${idOrName}`);
+export const getPokemonByIdOrName = async (idOrName) => {
+  const key = `pokemon-${String(idOrName).toLowerCase()}`;
+
+  if (apiCache.has(key)) {
+    console.log(`Serving ${idOrName} from cache ⚡️`);
+    return apiCache.get(key);
+  }
+  const response = await API.get(`pokemon/${idOrName}`);
+
+  apiCache.set(key, response);
+  return response;
 };
 
-export const getPokemonTypes = () => {
-  return API.get('/type');
+export const getPokemonTypes = async () => {
+  const key = 'types';
+
+  if (apiCache.has(key)) return apiCache.get(key);
+  const response = await API.get('type');
+
+  apiCache.set(key, response);
+  return response;
 };
 
-export const getPokemonByType = (type) => {
-  return API.get(`/type/${type}`);
+export const getPokemonByType = async (type) => {
+  const key = `type-${type}`;
+
+  if (apiCache.has(key)) return apiCache.get(key);
+  const response = await API.get(`type/${type}`);
+
+  apiCache.set(key, response);
+  return response;
 };
 
-export const getPokemonSpeciesById = (id) => {
-  return API.get(`/pokemon-species/${id}`);
+export const getPokemonSpeciesById = async (id) => {
+  const key = `species-${String(id)}`;
+
+  if (apiCache.has(key)) return apiCache.get(key);
+  const response = await API.get(`pokemon-species/${id}`);
+
+  apiCache.set(key, response);
+  return response;
 };

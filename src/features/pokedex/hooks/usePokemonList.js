@@ -3,24 +3,49 @@ import { getPokemonByIdOrName, getPokemonByType, getPokemonList } from '@/shared
 import { mapApiToPokemon } from '@/shared/utils/mappers';
 import { isPokemonInGeneration } from '@/shared/utils/filterHelper';
 
+// Cached variables
+const cache = {
+  pokemon: [],
+  allPokemonNames: [],
+  offset: 0,
+  hasMore: true,
+  searchQuery: '',
+  selectedType: 'all',
+  selectedGeneration: 'all',
+};
+
 export const usePokemonList = () => {
-  const [allPokemonNames, setAllPokemonNames] = useState([]);
-  const [pokemon, setPokemon] = useState([]);
+  // State mit den Werten vom Cache starten
+  const [allPokemonNames, setAllPokemonNames] = useState(cache.allPokemonNames);
+  const [pokemon, setPokemon] = useState(cache.pokemon);
+
+  const [searchQuery, setSearchQuery] = useState(cache.searchQuery);
+  const [selectedType, setSelectedType] = useState(cache.selectedType);
+  const [selectedGeneration, setSelectedGeneration] = useState(cache.selectedGeneration);
+
+  const [offset, setOffset] = useState(cache.offset);
+  const [hasMore, setHasMore] = useState(cache.hasMore);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedType, setSelectedType] = useState('all');
-  const [selectedGeneration, setSelectedGeneration] = useState('all');
-
-  const [offset, setOffset] = useState(0);
-  const [hasMore, setHasMore] = useState(true);
-
   const LIMIT = 20;
+
+  const updateCache = (updates) => {
+    Object.assign(cache, updates);
+  };
 
   // Ladet zuerst eine Liste nur mit den Pokemonnamen
   const getAllPokemonNames = async () => {
+    // Wenn Daten vorhanden und nicht geändert -> nichts tun
+    if (
+      pokemon.length > 0 &&
+      searchQuery === cache.searchQuery &&
+      selectedType === cache.selectedType &&
+      selectedGeneration === cache.selectedGeneration
+    ) {
+      return;
+    }
+
     setLoading(true);
     setError(null);
 
@@ -35,10 +60,6 @@ export const usePokemonList = () => {
         // Ansonsten alle Pokemon laden
         const pokemonList = await getPokemonList(1500, 0);
         results = pokemonList.results;
-      }
-
-      if (searchQuery) {
-        results = results.filter((pokemon) => pokemon.name.includes(searchQuery));
       }
 
       // Liste mit ID's wichtig für den Generationen-Filter
@@ -60,6 +81,16 @@ export const usePokemonList = () => {
       setOffset(0);
       setPokemon([]);
       setHasMore(results.length > 0);
+
+      updateCache({
+        allPokemonNames: filteredResults,
+        offset: 0,
+        pokemon: [],
+        hasMore: filteredResults.length > 0,
+        searchQuery,
+        selectedType,
+        selectedGeneration,
+      });
     } catch (error) {
       setError('Fehler beim Laden der Liste.');
       console.error('Liste konnte nicht geladen werden.', error);
@@ -71,7 +102,14 @@ export const usePokemonList = () => {
   useEffect(() => {
     // Verhindert das die Funktion bei jedem Tastenanschlag feuert
     const timeout = setTimeout(() => {
-      getAllPokemonNames();
+      const filtersChanged =
+        searchQuery !== cache.searchQuery ||
+        selectedType !== cache.selectedType ||
+        selectedGeneration !== cache.selectedGeneration;
+
+      if (filtersChanged || (pokemon.length === 0 && !loading)) {
+        getAllPokemonNames();
+      }
     }, 500);
 
     return () => clearTimeout(timeout);
@@ -81,9 +119,15 @@ export const usePokemonList = () => {
     // Verhindert doppeltes Laden
     if (loading || allPokemonNames.length === 0) return;
 
-    // Bei erreichen vom Ende der Liste keine Pokemon mehr laden
-    if (offset + LIMIT >= allPokemonNames.length) {
+    // Sind im Cache schon Pokemon geladen, dann nichts tun
+    if (cache.pokemon.length >= offset + LIMIT) {
+      return;
+    }
+
+    if (offset > 0 && offset >= allPokemonNames.length) {
       setHasMore(false);
+      updateCache({ hasMore: false });
+      return;
     }
 
     try {
@@ -97,23 +141,42 @@ export const usePokemonList = () => {
       }
 
       const pokeDetails = await Promise.all(slice.map((pokemon) => getPokemonByIdOrName(pokemon.name)));
+      const newPokemonData = pokeDetails.map((pokemon) => mapApiToPokemon(pokemon));
 
       // Daten in ein Objekt transformieren
-      const newPokemonData = pokeDetails.map((pokemon) => mapApiToPokemon(pokemon));
-      setPokemon((prevPokemon) => [...prevPokemon, ...newPokemonData]);
-    } catch (err) {
+      setPokemon((prevPokemon) => {
+        const existingIds = new Set(prevPokemon.map((p) => p.id));
+        const uniqueNewPokemon = newPokemonData.filter((p) => !existingIds.has(p.id));
+
+        const newList = [...prevPokemon, ...uniqueNewPokemon];
+        updateCache({ pokemon: newList });
+        return newList;
+      });
+
+      // Alle Pokemon wurden geladen.
+      if (offset + LIMIT >= allPokemonNames.length) {
+        setHasMore(false);
+        updateCache({ hasMore: false });
+      }
+    } catch (error) {
       setError('Fehler beim Laden der Pokemon');
-      console.error('Pokemon-Liste konnte nicht geladen werden.', err);
+      console.error('Pokemon-Liste konnte nicht geladen werden.', error);
     }
-  }, [offset, loading, allPokemonNames]);
+  }, [offset, loading, allPokemonNames, pokemon]);
 
   useEffect(() => {
-    loadPokemons();
+    if (allPokemonNames.length > 0) {
+      loadPokemons();
+    }
   }, [offset, allPokemonNames]);
 
   // Offset erweitern und weitere Pokemon laden
   const loadMore = () => {
-    setOffset((prev) => prev + LIMIT);
+    if (!loading && hasMore) {
+      const newOffset = offset + LIMIT;
+      setOffset(newOffset);
+      updateCache({ offset: newOffset });
+    }
   };
 
   return {

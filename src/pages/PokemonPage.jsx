@@ -20,6 +20,9 @@ export default function PokemonPage() {
   return (
     <>
       <div className='container mx-auto py-8'>
+        <Link to='/' className='text-blue-500 underline mb-4 block'>
+          &larr; Zurück zur Übersicht
+        </Link>
         <div className='flex flex-row justify-between'>
           <Pokemon pokemon={pokemon} evolutions={evolutions} />
           <PokemonDetails species={pokemonSpecies} />
