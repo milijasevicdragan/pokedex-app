@@ -6,7 +6,7 @@ export const getPokemonList = async (limit, offset = 0) => {
   const key = `list-${limit}-${offset}`;
   if (apiCache.has(key)) return apiCache.get(key);
 
-  const response = await API.get(`pokemon?limit=${limit}&offset=${offset}`);
+  const response = await API.get(`pokemons?limit=${limit}&offset=${offset}`);
   apiCache.set(key, response);
 
   return response;
