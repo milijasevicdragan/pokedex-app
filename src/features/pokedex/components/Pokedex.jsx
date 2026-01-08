@@ -2,11 +2,14 @@ import PokeCard from './PokeCard';
 import { usePokemonList } from '../hooks/usePokemonList';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Filter from './Filter';
+import SkeletonPokeCard from './SkeletonPokeCard';
+import Error from '@/shared/components/Error';
 
 export default function Pokedex() {
   const {
     pokemon,
     error,
+    loading,
     loadMore,
     hasMore,
     searchQuery,
@@ -17,7 +20,11 @@ export default function Pokedex() {
     setSelectedGeneration,
   } = usePokemonList();
 
-  if (error) return <p className='text-center text-red-500 mt-10'>{error}</p>;
+  console.log('ERROR: ' + error);
+
+  if (error) {
+    return <Error error={error} />;
+  }
 
   return (
     <>
@@ -29,32 +36,41 @@ export default function Pokedex() {
         onGenerationChange={setSelectedGeneration}
         selectedGeneration={selectedGeneration}
       />
-      <InfiniteScroll
-        dataLength={pokemon.length}
-        next={loadMore}
-        hasMore={hasMore}
-        loader={<h4 className='text-center my-4 font-bold text-gray-500 animate-pulse'>Lade weitere Pokemon...</h4>}
-        endMessage={
-          pokemon.length > 0 && (
-            <p className='text-center my-4 text-green-500'>
-              <strong>Ende der Pokemon-Liste!</strong>
-            </p>
-          )
-        }>
+      {loading && pokemon.length === 0 ? (
         <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-4'>
-          {pokemon.map((pokemon, index) => (
-            <PokeCard
-              key={index}
-              name={pokemon.name}
-              number={pokemon.id}
-              types={pokemon.types}
-              sprite={pokemon.sprite}
-            />
+          {/* Wir erzeugen ein Array mit 12 leeren Items, um 12 Skeletons anzuzeigen */}
+          {[...Array(12)].map((_, index) => (
+            <SkeletonPokeCard key={index} />
           ))}
         </div>
+      ) : (
+        <InfiniteScroll
+          dataLength={pokemon.length}
+          next={loadMore}
+          hasMore={hasMore}
+          loader={<h4 className='text-center my-4 font-bold text-gray-500 animate-pulse'>Lade weitere Pokemon...</h4>}
+          endMessage={
+            pokemon.length > 0 && (
+              <p className='text-center my-4 text-green-500'>
+                <strong>Ende der Pokemon-Liste!</strong>
+              </p>
+            )
+          }>
+          <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-4'>
+            {pokemon.map((pokemon, index) => (
+              <PokeCard
+                key={index}
+                name={pokemon.name}
+                number={pokemon.id}
+                types={pokemon.types}
+                sprite={pokemon.sprite}
+              />
+            ))}
+          </div>
 
-        {pokemon.length === 0 && <div className='text-center text-gray-500 mt-10'>Keine Pokémon gefunden.</div>}
-      </InfiniteScroll>
+          {pokemon.length === 0 && <div className='text-center text-gray-500 mt-10'>Keine Pokémon gefunden.</div>}
+        </InfiniteScroll>
+      )}
     </>
   );
 }

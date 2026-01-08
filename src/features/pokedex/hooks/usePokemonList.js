@@ -181,8 +181,8 @@ export const usePokemonList = () => {
 
   return {
     pokemon,
-    loading,
     error,
+    loading,
     loadMore,
     hasMore,
     searchQuery,
