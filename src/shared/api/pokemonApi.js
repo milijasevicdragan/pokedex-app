@@ -54,3 +54,7 @@ export const getPokemonSpeciesById = async (id) => {
   apiCache.set(key, response);
   return response;
 };
+
+export const getMoveDetails = (url) => {
+  return API.get(url);
+};

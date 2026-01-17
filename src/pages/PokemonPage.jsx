@@ -8,6 +8,11 @@ export default function PokemonPage() {
   const { id } = useParams();
   const { pokemon, pokemonSpecies, evolutions, loading, error } = usePokemonDetails(id);
 
+  // Für Navigation (Berechnung der Pokemon IDs)
+  const currentId = parseInt(id);
+  const prevId = currentId > 1 ? currentId - 1 : null;
+  const nextId = currentId + 1;
+
   if (error) return <p className='text-center text-red-500 mt-10'>{error}</p>;
   if (loading) {
     return (
@@ -19,13 +24,33 @@ export default function PokemonPage() {
 
   return (
     <>
-      <div className='container mx-auto py-8'>
-        <Link to='/' className='text-blue-500 underline mb-4 block'>
-          &larr; Zurück zur Übersicht
+      {/* Navigation Desktop */}
+      {prevId && (
+        <Link 
+          to={`/pokemon/${prevId}`}
+          className='hidden xl:flex fixed left-8 top-1/2 -translate-y-1/2 bg-white p-4 rounded-full shadow-lg hover:bg-gray-100 hover:scale-110 transition-all z-50 text-gray-600'
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-6 h-6">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+          </svg>
         </Link>
+      )}
+
+      <Link 
+        to={`/pokemon/${nextId}`}
+        className='hidden xl:flex fixed right-8 top-1/2 -translate-y-1/2 bg-white p-4 rounded-full shadow-lg hover:bg-gray-100 hover:scale-110 transition-all z-50 text-gray-600'
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-6 h-6">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+        </svg>
+      </Link>
+
+      <div className='container mx-auto py-8'>
         <div className='flex flex-row justify-between'>
           <Pokemon pokemon={pokemon} evolutions={evolutions} />
-          <PokemonDetails species={pokemonSpecies} />
+        </div>
+        <div className='w-full lg:flex-1'>
+          <PokemonDetails pokemon={pokemon} pokemonSpecies={pokemonSpecies} />
         </div>
       </div>
     </>
