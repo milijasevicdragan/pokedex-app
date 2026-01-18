@@ -21,7 +21,7 @@ const Layout = () => {
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Layout />, // Das Layout umschließt alle Unterseiten
+    element: <Layout />, 
     children: [
       {
         path: '/',
@@ -32,7 +32,7 @@ const router = createBrowserRouter([
         element: <PokemonPage />,
       },
       {
-        path: '/favorites', // Achte auf die Schreibweise (favorites vs favourites)
+        path: '/favorites', 
         element: <FavouritesPage />,
       },
     ],
