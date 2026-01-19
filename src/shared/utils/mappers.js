@@ -11,8 +11,9 @@ export const mapApiToPokemon = (apiData) => {
     moves: apiData.moves,
     sprite:
       apiData.sprites?.other?.dream_world?.front_default ||
+      apiData.sprites?.other?.['official-artwork'].front_default ||
       apiData.sprites?.front_default ||
-      'https://via.placeholder.com/150', // Fallback falls gar kein Bild besteht
+      'https://placehold.co/400', // Fallback falls gar kein Bild besteht
   };
 };
 

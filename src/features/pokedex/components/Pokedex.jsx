@@ -20,8 +20,6 @@ export default function Pokedex() {
     setSelectedGeneration,
   } = usePokemonList();
 
-  console.log('ERROR: ' + error);
-
   if (error) {
     return <Error error={error} />;
   }
@@ -38,38 +36,41 @@ export default function Pokedex() {
       />
       {loading && pokemon.length === 0 ? (
         <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-4'>
-          {/* Wir erzeugen ein Array mit 12 leeren Items, um 12 Skeletons anzuzeigen */}
+          {/* Platzhalter für die loading Skeletons */}
           {[...Array(12)].map((_, index) => (
             <SkeletonPokeCard key={index} />
           ))}
         </div>
       ) : (
-        <InfiniteScroll
-          dataLength={pokemon.length}
-          next={loadMore}
-          hasMore={hasMore}
-          loader={<h4 className='text-center my-4 font-bold text-gray-500 animate-pulse'>Lade weitere Pokemon...</h4>}
-          endMessage={
-            pokemon.length > 0 && (
-              <p className='text-center my-4 text-green-500'>
-                <strong>Ende der Pokemon-Liste!</strong>
-              </p>
-            )
-          }>
-          <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-4'>
-            {pokemon.map((pokemon, index) => (
-              <PokeCard
-                key={index}
-                name={pokemon.name}
-                number={pokemon.id}
-                types={pokemon.types}
-                sprite={pokemon.sprite}
-              />
-            ))}
-          </div>
+        <div className='w-full'>
+          <InfiniteScroll
+            dataLength={pokemon.length}
+            next={loadMore}
+            hasMore={hasMore}
+            loader={<h4 className='text-center my-4 font-bold text-gray-500 animate-pulse'>Lade weitere Pokemon...</h4>}
+            endMessage={
+              pokemon.length > 0 && (
+                <p className='text-center my-4 text-green-500'>
+                  <strong>Ende der Pokemon-Liste!</strong>
+                </p>
+              )
+            }>
+            <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-4'>
+              {pokemon.map((pokemon, index) => (
+                <PokeCard
+                  key={index}
+                  {...pokemon}
+                  name={pokemon.name}
+                  number={pokemon.id}
+                  types={pokemon.types}
+                  sprite={pokemon.sprite}
+                />
+              ))}
+            </div>
 
-          {pokemon.length === 0 && <div className='text-center text-gray-500 mt-10'>Keine Pokémon gefunden.</div>}
-        </InfiniteScroll>
+            {pokemon.length === 0 && <div className='text-center text-gray-500 mt-10'>Keine Pokémon gefunden.</div>}
+          </InfiniteScroll>
+        </div>
       )}
     </>
   );

@@ -18,8 +18,6 @@ const PokemonEvolutions = ({ evolutionChain, currentPokemonImage, currentType })
     const currentPokemon = evolutionChain[currentIndex];
     const isDirectEvolution = String(evolution.evolvesFromId) === String(currentPokemon.id);
 
-    console.log(evolution);
-
     if (isDirectEvolution) {
       setEvolvingTo(evolution);
     } else {

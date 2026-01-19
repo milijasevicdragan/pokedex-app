@@ -9,6 +9,7 @@ export const usePokemonDetails = (id) => {
   const [pokemonSpecies, setPokemonSpecies] = useState(null);
 
   const [evolutions, setEvolutions] = useState([]);
+  const [megaEvolutions, setMegaEvolutions] = useState([]);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -18,11 +19,21 @@ export const usePokemonDetails = (id) => {
     setError(null);
 
     try {
-      // Parallel laden für bessere Performance
-      const [pokemonResponse, speciesResponse] = await Promise.all([
-        getPokemonByIdOrName(id),
-        getPokemonSpeciesById(id),
-      ]);
+      const pokemonResponse = await getPokemonByIdOrName(id);
+
+      // Pokemon Species ID holen
+      const speciesUrl = pokemonResponse.species.url;
+      const urlParts = speciesUrl.split('/');
+      const speciesId = urlParts[urlParts.length - 2];
+
+      const speciesResponse = await getPokemonSpeciesById(speciesId);
+      const varieties = speciesResponse.varieties;
+
+      const megaPromises = varieties.map(async (mega) => {
+        const response = await getPokemonByIdOrName(mega.pokemon.name);
+        return mapApiToPokemon(response);
+      });
+      const megaPokemons = await Promise.all(megaPromises);
 
       console.log('Species Response Rohdaten:', speciesResponse);
       // CHANGE: Variabelname für mehr klarheit geändert
@@ -31,6 +42,7 @@ export const usePokemonDetails = (id) => {
 
       setPokemon(mapApiToPokemon(pokemonResponse));
       setPokemonSpecies(mapApiToSpecies(speciesResponse));
+      setMegaEvolutions(megaPokemons);
 
       const evolutionChainUrl = speciesResponse.evolution_chain.url;
 
@@ -54,5 +66,5 @@ export const usePokemonDetails = (id) => {
     }
   }, [id]);
 
-  return { pokemon, pokemonSpecies, evolutions, loading, error };
+  return { pokemon, pokemonSpecies, megaEvolutions, evolutions, loading, error };
 };
