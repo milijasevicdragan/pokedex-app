@@ -2,7 +2,7 @@ import { useFavorites } from '@/features/pokemon/hooks/useFavorites';
 import { useState } from 'react';
 
 // CHANGE: New component
-const FavouritesButton = ({ name, number, types, sprite }) => {
+const FavoritesButton = ({ name, number, types, sprite }) => {
   const [showTooltip, setShowTooltip] = useState(false);
 
   const { isFavorite, toggleFavorite } = useFavorites();
@@ -66,4 +66,4 @@ const FavouritesButton = ({ name, number, types, sprite }) => {
   );
 };
 
-export default FavouritesButton;
+export default FavoritesButton;

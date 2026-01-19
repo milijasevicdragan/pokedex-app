@@ -5,6 +5,7 @@ import { Route, Routes } from 'react-router-dom';
 import HomePage from '@/pages/HomePage';
 import PokemonPage from '@/pages/PokemonPage';
 import Team from '@/features/team/components/Team';
+import FavoritesPage from '@/pages/FavoritesPage';
 
 function App() {
   const { team, addToTeam, removeFromTeam, isInTeam } = useTeam();
@@ -22,6 +23,7 @@ function App() {
           path='/pokemon/:id'
           element={<PokemonPage addToTeam={addToTeam} removeFromTeam={removeFromTeam} isInTeam={isInTeam} />}
         />
+        <Route path='/favorites' element={<FavoritesPage />} />
       </Routes>
 
       <Team team={team} removeFromTeam={removeFromTeam} />

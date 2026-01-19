@@ -19,7 +19,7 @@ export default function NavBar() {
         <div className='w-full hidden grow lg:flex lg:items-center lg:w-auto'>
           <div className='text-sm lg:grow'>
             <a href='/favorites' className='block mt-4 lg:inline-block lg:mt-0 text-white mr-4'>
-              Favourites
+              Favorites
             </a>
           </div>
         </div>
