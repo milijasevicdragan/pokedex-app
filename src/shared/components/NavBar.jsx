@@ -1,5 +1,4 @@
 import pikachuIcon from '@/assets/pikachu.svg';
-import Filter from '@/features/pokedex/components/Filter';
 
 export default function NavBar() {
   return (
@@ -19,7 +18,7 @@ export default function NavBar() {
         </div>
         <div className='w-full hidden grow lg:flex lg:items-center lg:w-auto'>
           <div className='text-sm lg:grow'>
-            <a href='#responsive-header' className='block mt-4 lg:inline-block lg:mt-0 text-white mr-4'>
+            <a href='/favorites' className='block mt-4 lg:inline-block lg:mt-0 text-white mr-4'>
               Favourites
             </a>
           </div>

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { getPokemonByIdOrName, getPokemonSpeciesById } from '@/shared/api/pokemonApi';
-import { mapApiToPokemon } from '@/shared/utils/mappers';
+import { mapApiToPokemon, mapApiToSpecies } from '@/shared/utils/mappers';
 import { normalizeEvolutionChain } from '../utils/evolutionChainHelper';
 
 export const usePokemonDetails = (id) => {
@@ -24,10 +24,13 @@ export const usePokemonDetails = (id) => {
         getPokemonSpeciesById(id),
       ]);
 
-      // HIER DIE POKEMONBESCHREIBUNG EINFÜGEN
+      console.log('Species Response Rohdaten:', speciesResponse);
+      // CHANGE: Variabelname für mehr klarheit geändert
+      const mappedSpecies = mapApiToSpecies(speciesResponse);
+      console.log('Species Gemappt:', mappedSpecies);
 
       setPokemon(mapApiToPokemon(pokemonResponse));
-      setPokemonSpecies(speciesResponse);
+      setPokemonSpecies(mapApiToSpecies(speciesResponse));
 
       const evolutionChainUrl = speciesResponse.evolution_chain.url;
 

@@ -6,7 +6,7 @@ export default function Pokemon({ pokemon, evolutions }) {
   return (
     <>
       {pokemon ? (
-        <div className='relative flex flex-col flex-1 gap-8'>
+        <div className='relative flex flex-col flex-1 gap-8 px-6 pb-6'>
           <PokemonHeader pokemon={pokemon} />
           <div className='relative flex justify-center'>
             <span
