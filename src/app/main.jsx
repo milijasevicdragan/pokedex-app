@@ -3,25 +3,14 @@ import { createRoot } from 'react-dom/client';
 import './index.css';
 import HomePage from '@/pages/HomePage';
 import PokemonPage from '@/pages/PokemonPage';
-import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
-import NavBar from '@/shared/components/NavBar';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import FavouritesPage from '@/pages/FavouritesPage';
+import NavBar from '@/shared/components/NavBar';
 
-const Layout = () => {
-  return (
-    <>
-      <NavBar />
-      <div className="pt-4"> 
-        <Outlet />
-      </div>
-    </>
-  );
-};
-
+// CHANGE: Created separate file for the layout component
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Layout />, 
     children: [
       {
         path: '/',
@@ -32,7 +21,7 @@ const router = createBrowserRouter([
         element: <PokemonPage />,
       },
       {
-        path: '/favorites', 
+        path: '/favorites',
         element: <FavouritesPage />,
       },
     ],
@@ -41,6 +30,7 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
+    <NavBar />
     {/* RouterProvider ersetzt die App.jsx */}
     <RouterProvider router={router} />
   </StrictMode>

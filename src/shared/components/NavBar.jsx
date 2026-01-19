@@ -1,5 +1,4 @@
 import pikachuIcon from '@/assets/pikachu.svg';
-import Filter from '@/features/pokedex/components/Filter';
 
 export default function NavBar() {
   return (

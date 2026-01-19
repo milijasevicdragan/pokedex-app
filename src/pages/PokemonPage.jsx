@@ -26,26 +26,22 @@ export default function PokemonPage() {
     <>
       {/* Navigation Desktop */}
       {prevId && (
-        <Link 
+        <Link
           to={`/pokemon/${prevId}`}
-          className='hidden xl:flex fixed left-8 top-1/2 -translate-y-1/2 bg-white p-4 rounded-full shadow-lg hover:bg-gray-100 hover:scale-110 transition-all z-50 text-gray-600'
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-6 h-6">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+          className='hidden xl:flex fixed left-8 top-1/2 -translate-y-1/2 bg-white p-4 rounded-full shadow-lg hover:bg-gray-100 hover:scale-110 transition-all z-50 text-gray-600'>
+          <svg
+            xmlns='http://www.w3.org/2000/svg'
+            fill='none'
+            viewBox='0 0 24 24'
+            strokeWidth={2.5}
+            stroke='currentColor'
+            className='w-6 h-6'>
+            <path strokeLinecap='round' strokeLinejoin='round' d='M15.75 19.5L8.25 12l7.5-7.5' />
           </svg>
         </Link>
       )}
 
-      <Link 
-        to={`/pokemon/${nextId}`}
-        className='hidden xl:flex fixed right-8 top-1/2 -translate-y-1/2 bg-white p-4 rounded-full shadow-lg hover:bg-gray-100 hover:scale-110 transition-all z-50 text-gray-600'
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-6 h-6">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-        </svg>
-      </Link>
-
-      <div className='container mx-auto py-8'>
+      <div className='container flex flex-col lg:flex-row gap-8 mx-auto py-8'>
         <div className='flex flex-row justify-between'>
           <Pokemon pokemon={pokemon} evolutions={evolutions} />
         </div>
@@ -53,6 +49,20 @@ export default function PokemonPage() {
           <PokemonDetails pokemon={pokemon} pokemonSpecies={pokemonSpecies} />
         </div>
       </div>
+
+      <Link
+        to={`/pokemon/${nextId}`}
+        className='hidden xl:flex fixed right-8 top-1/2 -translate-y-1/2 bg-white p-4 rounded-full shadow-lg hover:bg-gray-100 hover:scale-110 transition-all z-50 text-gray-600'>
+        <svg
+          xmlns='http://www.w3.org/2000/svg'
+          fill='none'
+          viewBox='0 0 24 24'
+          strokeWidth={2.5}
+          stroke='currentColor'
+          className='w-6 h-6'>
+          <path strokeLinecap='round' strokeLinejoin='round' d='M8.25 4.5l7.5 7.5-7.5 7.5' />
+        </svg>
+      </Link>
     </>
   );
 }

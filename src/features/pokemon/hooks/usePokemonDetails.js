@@ -24,9 +24,10 @@ export const usePokemonDetails = (id) => {
         getPokemonSpeciesById(id),
       ]);
 
-      console.log("Species Response Rohdaten:", speciesResponse);
-      const gemappt = mapApiToSpecies(speciesResponse);
-      console.log("Species Gemappt:", gemappt);
+      console.log('Species Response Rohdaten:', speciesResponse);
+      // CHANGE: Variabelname für mehr klarheit geändert
+      const mappedSpecies = mapApiToSpecies(speciesResponse);
+      console.log('Species Gemappt:', mappedSpecies);
 
       setPokemon(mapApiToPokemon(pokemonResponse));
       setPokemonSpecies(mapApiToSpecies(speciesResponse));

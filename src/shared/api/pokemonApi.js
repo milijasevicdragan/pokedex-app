@@ -55,6 +55,13 @@ export const getPokemonSpeciesById = async (id) => {
   return response;
 };
 
-export const getMoveDetails = (url) => {
-  return API.get(url);
+export const getMoveDetailsById = async (id) => {
+  const key = `move-${String(id)}`;
+
+  if (apiCache.has(key)) return apiCache.get(key);
+  const response = await API.get(`move/${id}`);
+
+  apiCache.set(key, response);
+
+  return response;
 };

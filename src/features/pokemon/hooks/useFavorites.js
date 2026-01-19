@@ -1,17 +1,18 @@
 import { useState, useEffect } from 'react';
 
 export const useFavorites = () => {
-  const getFavoritesFromLS = () => {
+  // CHANGE: LS ausgeschrieben damit man direkt weiss was es ist
+  const getFavoritesFromLocalStorage = () => {
     const saved = localStorage.getItem('pokemon-favorites');
     return saved ? JSON.parse(saved) : [];
   };
 
-  const [favorites, setFavorites] = useState(getFavoritesFromLS());
+  const [favorites, setFavorites] = useState(getFavoritesFromLocalStorage());
 
   const toggleFavorite = (pokemon) => {
-    const currentFavs = getFavoritesFromLS();
+    const currentFavs = getFavoritesFromLocalStorage();
     const isExisting = currentFavs.some((p) => p.number === pokemon.number);
-    
+
     let newFavs;
     if (isExisting) {
       newFavs = currentFavs.filter((p) => p.number !== pokemon.number);
@@ -20,7 +21,7 @@ export const useFavorites = () => {
     }
 
     localStorage.setItem('pokemon-favorites', JSON.stringify(newFavs));
-    
+
     window.dispatchEvent(new Event('favorites-updated'));
   };
 
@@ -29,8 +30,8 @@ export const useFavorites = () => {
   };
 
   useEffect(() => {
-    const handleUpdate = () => setFavorites(getFavoritesFromLS());
-    
+    const handleUpdate = () => setFavorites(getFavoritesFromLocalStorage());
+
     window.addEventListener('favorites-updated', handleUpdate);
     return () => window.removeEventListener('favorites-updated', handleUpdate);
   }, []);
