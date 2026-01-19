@@ -4,7 +4,7 @@ export default function NavBar() {
   return (
     <nav className='bg-gray-800 p-6 mb-10'>
       <div className='container flex items-center justify-between flex-wrap mx-auto'>
-        <a href='http://localhost:5173' className='flex items-center flex-shrink-0 text-white mr-6'>
+        <a href='http://localhost:5173' className='flex items-center shrink-0 text-white mr-6'>
           <img className='mr-3' src={pikachuIcon} width={32} height={32} alt='Pikachu Logo' />
           <span className='font-semibold text-xl tracking-tight'>Pokédex</span>
         </a>
@@ -19,7 +19,7 @@ export default function NavBar() {
         <div className='w-full hidden grow lg:flex lg:items-center lg:w-auto'>
           <div className='text-sm lg:grow'>
             <a href='/favorites' className='block mt-4 lg:inline-block lg:mt-0 text-white mr-4'>
-              Favourites
+              Favorites
             </a>
           </div>
         </div>

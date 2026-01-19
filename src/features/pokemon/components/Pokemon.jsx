@@ -2,12 +2,19 @@ import { TYPE_COLORS } from '@/shared/constants/pokemonConfig';
 import PokemonHeader from './PokemonHeader';
 import PokemonEvolutions from './PokemonEvolutions';
 
-export default function Pokemon({ pokemon, evolutions }) {
+export default function Pokemon({ pokemon, megaEvolutions, evolutions, addToTeam, removeFromTeam, isAdded }) {
   return (
     <>
       {pokemon ? (
         <div className='relative flex flex-col flex-1 gap-8 px-6 pb-6'>
-          <PokemonHeader pokemon={pokemon} />
+          <PokemonHeader
+            pokemon={pokemon}
+            megaEvolutions={megaEvolutions}
+            addToTeam={addToTeam}
+            removeFromTeam={removeFromTeam}
+            isAdded={isAdded}
+          />
+
           <div className='relative flex justify-center'>
             <span
               className='absolute left-0 top-0 w-full h-full'

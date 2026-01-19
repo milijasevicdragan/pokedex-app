@@ -1,7 +1,7 @@
 import Badge from '@/shared/components/Badge';
 import { TYPE_COLORS } from '@/shared/constants/pokemonConfig';
 import { Link } from 'react-router-dom';
-import FavouritesButton from './FavouritesButton';
+import FavoritesButton from './FavoritesButton';
 
 export default function PokeCard({ name, number, types, sprite }) {
   return (
@@ -16,8 +16,8 @@ export default function PokeCard({ name, number, types, sprite }) {
           style={{ backgroundSize: '80%' }}
         />
 
-        {/* CHANGE: Created a separate component for the favourites button */}
-        <FavouritesButton name={name} number={number} types={types} sprite={sprite} />
+        {/* CHANGE: Created a separate component for the favorites button */}
+        <FavoritesButton name={name} number={number} types={types} sprite={sprite} />
 
         <img className='relative w-full h-64 p-5 rounded-t-2xl' src={sprite} alt={name} width={300} height={200} />
         <div className='flex flex-col flex-1 p-5 bg-white rounded-b-2xl relative'>
