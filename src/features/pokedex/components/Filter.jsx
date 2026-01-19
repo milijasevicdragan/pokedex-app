@@ -39,6 +39,7 @@ export default function Filter({
           ))}
         </select>
 
+        {/* Generation Filter */}
         <select
           value={selectedGeneration}
           className='p-3 rounded-xl border border-gray-200 shadow-sm bg-white focus:ring-2 focus:ring-red-400 outline-none cursor-pointer'
@@ -50,11 +51,11 @@ export default function Filter({
           ))}
         </select>
 
+        {/* Reset Filter Button */}
         <button
           onClick={handleFilterReset}
           title='Filter zurücksetzen'
           className='p-3 rounded-xl border border-gray-200 shadow-sm bg-gray-100 hover:bg-gray-200 text-gray-500 hover:text-red-500 transition-colors flex items-center justify-center'>
-          {/* SVG Icon: Mülleimer / Reset */}
           <svg
             xmlns='http://www.w3.org/2000/svg'
             fill='none'

@@ -1,9 +1,10 @@
 import Pokemon from '@/features/pokemon/components/Pokemon';
 import PokemonDetails from '@/features/pokemon/components/PokemonDetails';
 import { usePokemonDetails } from '@/features/pokemon/hooks/usePokemonDetails';
+import Error from '@/shared/components/Error';
 import { Link, useParams } from 'react-router-dom';
 
-export default function PokemonPage({ addToTeam, removeFromTeam, isInTeam }) {
+export default function PokemonPage() {
   // useParams holt die ID aus der URL
   const { id } = useParams();
   const { pokemon, pokemonSpecies, megaEvolutions, evolutions, loading, error } = usePokemonDetails(id);
@@ -13,7 +14,7 @@ export default function PokemonPage({ addToTeam, removeFromTeam, isInTeam }) {
   const prevId = currentId > 1 ? currentId - 1 : null;
   const nextId = currentId + 1;
 
-  if (error) return <p className='text-center text-red-500 mt-10'>{error}</p>;
+  if (error) return <Error error={error} />;
   if (loading || !pokemon) {
     return (
       <div className='h-screen flex justify-center items-center'>
@@ -21,8 +22,6 @@ export default function PokemonPage({ addToTeam, removeFromTeam, isInTeam }) {
       </div>
     );
   }
-
-  const isAdded = isInTeam(pokemon.id);
 
   return (
     <>
@@ -44,14 +43,7 @@ export default function PokemonPage({ addToTeam, removeFromTeam, isInTeam }) {
       )}
 
       <div className='container mx-auto flex flex-col lg:flex-row justify-between p-8 gap-8'>
-        <Pokemon
-          pokemon={pokemon}
-          megaEvolutions={megaEvolutions}
-          evolutions={evolutions}
-          addToTeam={addToTeam}
-          removeFromTeam={removeFromTeam}
-          isAdded={isAdded}
-        />
+        <Pokemon pokemon={pokemon} megaEvolutions={megaEvolutions} evolutions={evolutions} />
         <PokemonDetails pokemon={pokemon} pokemonSpecies={pokemonSpecies} />
       </div>
 

@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { getMoveDetailsById } from '@/shared/api/pokemonApi';
 import { TYPE_COLORS } from '@/shared/constants/pokemonConfig';
+import Error from '@/shared/components/Error';
 
 export const MoveItem = ({ name, url }) => {
   const [move, setMove] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // CHANGE: Using async/await instead of .then()
   const urlParts = url.split('/');
   const id = Number(urlParts[urlParts.length - 2]);
 
@@ -38,11 +38,7 @@ export const MoveItem = ({ name, url }) => {
   }
 
   if (error) {
-    return (
-      <div className='h-24 bg-red-50 rounded-xl border border-red-100 flex items-center justify-center text-red-500 text-sm p-4'>
-        {error}
-      </div>
-    );
+    return <Error error={error} />;
   }
 
   // extract data (with Fallback, if null)

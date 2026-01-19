@@ -16,7 +16,6 @@ export default function PokeCard({ name, number, types, sprite }) {
           style={{ backgroundSize: '80%' }}
         />
 
-        {/* CHANGE: Created a separate component for the favorites button */}
         <FavoritesButton name={name} number={number} types={types} sprite={sprite} />
 
         <img className='relative w-full h-64 p-5 rounded-t-2xl' src={sprite} alt={name} width={300} height={200} />

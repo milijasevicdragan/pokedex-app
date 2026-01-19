@@ -2,7 +2,7 @@ import Pokeball from '@/features/team/components/Pokeball';
 import Badge from '@/shared/components/Badge';
 import { useNavigate } from 'react-router-dom';
 
-const PokemonHeader = ({ pokemon, megaEvolutions, addToTeam, removeFromTeam, isAdded }) => {
+const PokemonHeader = ({ pokemon, megaEvolutions }) => {
   const { name, id, types } = pokemon;
   const navigate = useNavigate();
 
@@ -17,7 +17,7 @@ const PokemonHeader = ({ pokemon, megaEvolutions, addToTeam, removeFromTeam, isA
       <div className='flex flex-row items-center gap-4'>
         <h1 className='text-4xl font-bold text-gray-800 capitalize tracking-wide leading-tight'>{name}</h1>
         <span className='text-2xl font-mono font-bold text-gray-400'>#{String(id).padStart(3, '0')}</span>
-        <Pokeball pokemon={pokemon} addToTeam={addToTeam} removeFromTeam={removeFromTeam} isAdded={isAdded} />
+        <Pokeball pokemon={pokemon} />
       </div>
       {/* Typen */}
       <div className='flex flex-row gap-4'>

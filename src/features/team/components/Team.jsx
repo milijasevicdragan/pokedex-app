@@ -1,8 +1,11 @@
 import { Link } from 'react-router-dom';
 import removeButton from '@/assets/cancel.png';
 import { TYPE_COLORS } from '@/shared/constants/pokemonConfig';
+import useTeam from '../hooks/useTeam';
 
-export default function Team({ team, removeFromTeam }) {
+export default function Team() {
+  const { team, removeFromTeam } = useTeam();
+
   // Nichts anzeigen wenn das Team leer ist
   if (team.length === 0) return null;
 
@@ -13,7 +16,7 @@ export default function Team({ team, removeFromTeam }) {
         <div className='flex gap-2'>
           {team.map((member) => (
             <div key={member.id} className='relative group'>
-              <Link to={`/pokemon/${member.name}`}>
+              <Link to={`/pokemon/${member.id}`}>
                 <div
                   className='w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center border border-gray-300'
                   style={{

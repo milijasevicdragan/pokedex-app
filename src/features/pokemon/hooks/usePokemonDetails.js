@@ -33,15 +33,12 @@ export const usePokemonDetails = (id) => {
         const response = await getPokemonByIdOrName(mega.pokemon.name);
         return mapApiToPokemon(response);
       });
-      const megaPokemons = await Promise.all(megaPromises);
 
-      console.log('Species Response Rohdaten:', speciesResponse);
-      // CHANGE: Variabelname für mehr klarheit geändert
+      const megaPokemons = await Promise.all(megaPromises);
       const mappedSpecies = mapApiToSpecies(speciesResponse);
-      console.log('Species Gemappt:', mappedSpecies);
 
       setPokemon(mapApiToPokemon(pokemonResponse));
-      setPokemonSpecies(mapApiToSpecies(speciesResponse));
+      setPokemonSpecies(mappedSpecies);
       setMegaEvolutions(megaPokemons);
 
       const evolutionChainUrl = speciesResponse.evolution_chain.url;

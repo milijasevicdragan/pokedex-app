@@ -16,20 +16,9 @@ export const getPokemonByIdOrName = async (idOrName) => {
   const key = `pokemon-${String(idOrName).toLowerCase()}`;
 
   if (apiCache.has(key)) {
-    console.log(`Serving ${idOrName} from cache ⚡️`);
     return apiCache.get(key);
   }
   const response = await API.get(`pokemon/${idOrName}`);
-
-  apiCache.set(key, response);
-  return response;
-};
-
-export const getPokemonTypes = async () => {
-  const key = 'types';
-
-  if (apiCache.has(key)) return apiCache.get(key);
-  const response = await API.get('type');
 
   apiCache.set(key, response);
   return response;

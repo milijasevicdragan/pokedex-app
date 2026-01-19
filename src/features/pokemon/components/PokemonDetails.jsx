@@ -1,7 +1,7 @@
 import TabButton from './TabButton';
 import { useState } from 'react';
-import About from './tabs/About';
-import Moves from './tabs/Moves';
+import About from './About';
+import Moves from './Moves';
 
 export default function PokemonDetails({ pokemon, pokemonSpecies }) {
   const [activeTab, setActiveTab] = useState('about');

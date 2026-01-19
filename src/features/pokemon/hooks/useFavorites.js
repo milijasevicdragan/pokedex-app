@@ -3,8 +3,8 @@ import { useState, useEffect } from 'react';
 export const useFavorites = () => {
   // CHANGE: LS ausgeschrieben damit man direkt weiss was es ist
   const getFavoritesFromLocalStorage = () => {
-    const saved = localStorage.getItem('pokemon-favorites');
-    return saved ? JSON.parse(saved) : [];
+    const favoritesInStorage = localStorage.getItem('pokemon-favorites');
+    return favoritesInStorage ? JSON.parse(favoritesInStorage) : [];
   };
 
   const [favorites, setFavorites] = useState(getFavoritesFromLocalStorage());
