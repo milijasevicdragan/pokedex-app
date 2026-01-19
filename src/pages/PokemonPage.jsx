@@ -43,20 +43,16 @@ export default function PokemonPage({ addToTeam, removeFromTeam, isInTeam }) {
         </Link>
       )}
 
-      <div className='container flex flex-col lg:flex-row gap-8 mx-auto py-8'>
-        <div className='flex flex-row justify-between'>
-          <Pokemon
-            pokemon={pokemon}
-            megaEvolutions={megaEvolutions}
-            evolutions={evolutions}
-            addToTeam={addToTeam}
-            removeFromTeam={removeFromTeam}
-            isAdded={isAdded}
-          />
-          <div className='w-full lg:flex-1'>
-            <PokemonDetails pokemon={pokemon} pokemonSpecies={pokemonSpecies} />
-          </div>
-        </div>
+      <div className='container mx-auto flex flex-col lg:flex-row justify-between p-8 gap-8'>
+        <Pokemon
+          pokemon={pokemon}
+          megaEvolutions={megaEvolutions}
+          evolutions={evolutions}
+          addToTeam={addToTeam}
+          removeFromTeam={removeFromTeam}
+          isAdded={isAdded}
+        />
+        <PokemonDetails pokemon={pokemon} pokemonSpecies={pokemonSpecies} />
       </div>
 
       <Link
