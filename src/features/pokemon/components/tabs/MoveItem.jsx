@@ -7,6 +7,7 @@ export const MoveItem = ({ name, url }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // CHANGE: Using async/await instead of .then()
   const urlParts = url.split('/');
   const id = Number(urlParts[urlParts.length - 2]);
 
